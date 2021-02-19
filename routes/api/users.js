@@ -114,6 +114,9 @@ router.post("/login", (req, res) => {
     // Check password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
+        User.updateOne({username},{available:true}).then((user)=>{
+         console.log(user);
+        });
         // User matched
         // Create JWT Payload
         const payload = {
@@ -146,4 +149,35 @@ router.post("/login", (req, res) => {
   });
 });
 
+// agent find
+
+router.get('/agent',(req, res) => {
+  res.send("agent call");
+  console.log("Called");
+   User.findOne({ agent: true , available:true  }).then( (user)=>{
+    if(user){
+      console.log(user);
+    }
+    else{
+      console.log("NO AGENT ");
+    }
+   });
+});
+
+// logout route
+
+router.get('/agentLogout',(req, res) => {
+   console.log("Logout");
+   let from = mongoose.Types.ObjectId(jwtUser.id);
+   User.findByIdAndUpdate(from,{available:false}).then( (user)=>{
+    if(user){
+      console.log("LogoutCall");
+    }
+    else{
+      console.log("Logout not call");
+    }
+   });
+});
+
+// 
 module.exports = router;

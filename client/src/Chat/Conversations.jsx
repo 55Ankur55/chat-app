@@ -80,6 +80,7 @@ const Conversations = (props) => {
         <ListItemText className={classes.subheaderText} primary="Global Chat" />
       </ListItem>
       <Divider />
+
     </List>
   );
 };
@@ -87,7 +88,7 @@ const Conversations = (props) => {
 export default Conversations;
 
 
-// divider / k neeche
+// divider k neeche
 // {conversations && (
 //         <React.Fragment>
 //           {conversations.map((c) => (

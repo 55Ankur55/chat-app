@@ -157,6 +157,7 @@ router.get('/conversations/query', (req, res) => {
 
 // Post private message
 router.post('/', (req, res) => {
+    var result;
     let from = mongoose.Types.ObjectId(jwtUser.id);
     let to = mongoose.Types.ObjectId(req.body.to);
 
@@ -189,6 +190,24 @@ router.post('/', (req, res) => {
                     body: req.body.body,
                 });
 
+                // bot integerartion
+                
+                const spawn = require('child_process').spawn;
+                
+                const pythonProcess = spawn('python' , ['./hello.py',req.body.body]);
+                 
+                pythonProcess.stdout.on('data', function (data) {
+                    result=data.toString();
+                    console.log(data.toString());
+                  });
+                pythonProcess.stderr.on('data', (data) => console.error(data.toString()));
+
+                pythonProcess.on('close', (code) => {
+                  console.log('Process Exited:', code);
+                });
+
+                //
+
                 req.io.sockets.emit('messages', req.body.body);
 
                 message.save(err => {
@@ -210,6 +229,10 @@ router.post('/', (req, res) => {
             }
         }
     );
+
+
+    // send wapas result;
+      
 });
 
 module.exports = router;

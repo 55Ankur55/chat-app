@@ -11,7 +11,7 @@ export function useGetUsers() {
     };
 
     const getUsers = () => {
-        return fetch(
+        return fetch (
             `${process.env.REACT_APP_API_URL}/api/users`,
             requestOptions
         )

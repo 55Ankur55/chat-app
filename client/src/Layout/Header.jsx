@@ -47,6 +47,7 @@ const Header = () => {
 
     const handleLogout = () => {
         authenticationService.logout();
+        // route for agent available in api/users/agentavai
         history.push('/');
     };
 
