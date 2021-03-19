@@ -118,15 +118,15 @@ export function useSendConversationMessage() {
             headers: authHeader(),
             body: JSON.stringify({ to: id, body: body }),
         };
-
+        // console.log(body);
         return fetch(
             `${process.env.REACT_APP_API_URL}/api/messages/`,
-            requestOptions
+            requestOptions 
         )
             .then(handleResponse)
             .catch(err => {
                 console.log(err);
-                enqueueSnackbar('Could send message', {
+                enqueueSnackbar('Could not send message', {
                     variant: 'error',
                 });
             });

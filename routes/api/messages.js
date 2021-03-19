@@ -191,13 +191,13 @@ router.post('/', (req, res) => {
                 });
 
                 // bot integerartion
-                
                 const spawn = require('child_process').spawn;
                 
                 const pythonProcess = spawn('python' , ['./hello.py',req.body.body]);
                  
                 pythonProcess.stdout.on('data', function (data) {
                     result=data.toString();
+                    req.io.sockets.emit('botmessages', result);
                     console.log(data.toString());
                   });
                 pythonProcess.stderr.on('data', (data) => console.error(data.toString()));
@@ -205,11 +205,18 @@ router.post('/', (req, res) => {
                 pythonProcess.on('close', (code) => {
                   console.log('Process Exited:', code);
                 });
-
-                //
-
+                // const spawnSync = require('child_process').spawnSync;
+                // const pythonProcess = spawnSync('python' , ['./hello.py',req.body.body],{
+                //             cwd:process.cwd(),
+                //             env:process.env,  req.io.sockets.emit('botmessages', result);
+                //             stdio: 'pipe',
+                //             encoding: 'utf-8'
+                // }); 
+                // result=pythonProcess.output[1]; 
+                // console.log(result); 
+                
                 req.io.sockets.emit('messages', req.body.body);
-
+               
                 message.save(err => {
                     if (err) {
                         console.log(err);
@@ -229,10 +236,6 @@ router.post('/', (req, res) => {
             }
         }
     );
-
-
-    // send wapas result;
-      
 });
 
 module.exports = router;

@@ -57,7 +57,7 @@ const Conversations = (props) => {
 
   useEffect(() => {
     let socket = socketIOClient(process.env.REACT_APP_API_URL);
-    socket.on("messages", (data) => setNewConversation(data));
+    socket.on("messages", (data) => {setNewConversation(data)});
 
     return () => {
       socket.removeListener("messages");

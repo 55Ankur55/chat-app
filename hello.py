@@ -57,10 +57,8 @@ for token, label_idx in zip(tokens, label_indices[0]):
 
  
 
-for token, label in zip(new_tokens, new_labels):
-    print("{}\t{}".format(label, token))
+# 
 
- 
 
 
 
@@ -116,7 +114,7 @@ prediction_data = TensorDataset(input_ids, attention_masks )
 prediction_sampler = SequentialSampler(prediction_data)
 prediction_dataloader = DataLoader(prediction_data, sampler=prediction_sampler, batch_size=batch_size)
 
-print('Predicting labels for {:,} test sentences...'.format(len(input_ids)))
+# print('Predicting labels for {:,} test sentences...'.format(len(input_ids)))
 model1.eval()
 predictions , true_labels = [], []
 for batch in prediction_dataloader:
@@ -131,12 +129,12 @@ for batch in prediction_dataloader:
     logits = logits.detach().cpu().numpy()
     predictions.append(logits)
 
-print('    DONE.')
+# print('    DONE.')
 
 flat_predictions = np.concatenate(predictions, axis=0)
 flat_predictions = np.argmax(flat_predictions, axis=1).flatten()
 intent_output=mpp[flat_predictions[0]+1]
-print(intent_output)
+# print(intent_output)
 
 
  
@@ -163,7 +161,7 @@ for key, word in zip(new_labels,new_tokens):
   if(len(word)==5 and word.isdigit()):
       entities["TrainNumber"]=word
   
-print(entities)
+# print(entities)
 
 
 # In[17]:

@@ -103,8 +103,11 @@ const ChatBox = (props) => {
   }, [lastMessage, props.scope, props.conversationId]);
 
   useEffect(() => {
+    
     const socket = socketIOClient(process.env.REACT_APP_API_URL);
     socket.on("messages", (data) => setLastMessage(data));
+    socket.on("botmessages", (data) => console.log(data));
+
   }, []);
 
   const reloadMessages = () => {
