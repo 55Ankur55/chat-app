@@ -11,67 +11,73 @@ import { useGetUsers } from "../Services/userService";
 import commonUtilites from "../Utilities/common";
 
 const useStyles = makeStyles((theme) => ({
-  subheader: {
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer",
-  },
-  globe: {
-    backgroundColor: theme.palette.primary.dark,
-  },
-  subheaderText: {
-    color: theme.palette.primary.dark,
-  },
-  list: {
-    maxHeight: "calc(100vh - 112px)",
-    overflowY: "auto",
-  },
-  avatar: {
-    margin: theme.spacing(0, 3, 0, 1),
-  },
+   subheader: {
+     display: "flex",
+     alignItems: "center",
+     cursor: "pointer",
+   },
+   globe: {
+     backgroundColor: theme.palette.primary.dark,
+   },
+   subheaderText: {
+     color: theme.palette.primary.dark,
+   },
+   list: {
+     maxHeight: "calc(100vh - 112px)",
+     overflowY: "auto",
+   },
+   avatar: {
+     margin: theme.spacing(0, 3, 0, 1),
+   },
 }));
 
 const Users = (props) => {
-  const classes = useStyles();
-  const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState(null);
-  const getUsers = useGetUsers();
+   const classes = useStyles();
+   const [users, setUsers] = useState([]);
+   // console.log(users)
+   const [newUser, setNewUser] = useState(null);
+   const getUsers = useGetUsers();
 
-  useEffect(() => {
-    getUsers().then((res) => setUsers(res));
-  }, [newUser]);
+   useEffect(() => {
+     getUsers().then((res) => setUsers(res));
+   }, [newUser]);
 
-  useEffect(() => {
-    const socket = socketIOClient(process.env.REACT_APP_API_URL);
-    socket.on("users", (data) => {
-      setNewUser(data);
-    });
-  }, []);
+   useEffect(() => {
+     const socket = socketIOClient(process.env.REACT_APP_API_URL);
+     socket.on("users", (data) => {
+       setNewUser(data);
+     });
+   }, []);
 
-  return (
-    <List className={classes.list}>
-      {users && (
-        <React.Fragment>
-          {users.map((u) => (
-            <ListItem
-              className={classes.listItem}
-              key={u._id}
-              onClick={() => {
-                props.setUser(u);
-                props.setScope(u.name);
-              }}
-              button
-            >
-              <ListItemAvatar className={classes.avatar}>
-                <Avatar>{commonUtilites.getInitialsFromName(u.name)}</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={u.name} />
-            </ListItem>
-          ))}
-        </React.Fragment>
-      )}
-    </List>
-  );
+   return (
+     <List className={classes.list}>
+       {users && (
+         <React.Fragment>
+           {users.map((u,i) => (
+             <ListItem
+               className={classes.listItem}
+               key={u._id}
+               onClick={() => {
+                 props.setUser(u);
+                 props.setScope(u.name);
+               }}
+               button
+               disabled={props.usetype === undefined || u.name ==="BOT" ?
+false :true}
+               >  { (props.usetype === undefined) ?
+               <ListItemAvatar className={classes.avatar}>
+
+<Avatar>{commonUtilites.getInitialsFromName(u.name)}</Avatar>
+                 </ListItemAvatar>:<></>}
+               { (props.usetype === undefined) ?
+               <ListItemText primary={u.name} />:
+               <ListItemText primary={u.name ==="BOT" ? u.name :''}/>}
+             </ListItem>
+           ))}
+         </React.Fragment>
+       )}
+     </List>
+   );
 };
 
 export default Users;

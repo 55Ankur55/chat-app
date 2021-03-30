@@ -12,73 +12,84 @@ import Conversations from './Conversations';
 import Users from './Users';
 
 const useStyles = makeStyles(theme => ({
-    paper: {
-        minHeight: 'calc(100vh - 64px)',
-        borderRadius: 0,
-    },
-    sidebar: {
-        zIndex: 8,
-    },
-    subheader: {
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-    },
-    globe: {
-        backgroundColor: theme.palette.primary.dark,
-    },
-    subheaderText: {
-        color: theme.palette.primary.dark,
-    },
+     paper: {
+         minHeight: 'calc(100vh - 64px)',
+         borderRadius: 0,
+     },
+     sidebar: {
+         zIndex: 8,
+     },
+     subheader: {
+         display: 'flex',
+         alignItems: 'center',
+         cursor: 'pointer',
+     },
+     globe: {
+         backgroundColor: theme.palette.primary.dark,
+     },
+     subheaderText: {
+         color: theme.palette.primary.dark,
+     },
 }));
 
 const Chat = () => {
-    const [scope, setScope] = useState('Global Chat');
-    const [tab, setTab] = useState(0);
-    const [user, setUser] = useState(null);
-    const classes = useStyles();
+     const [scope, setScope] = useState('Admin');
+     const [tab, setTab] = useState(1);
+     const [user, setUser] = useState(null);
+     const classes = useStyles();
 
-    const handleChange = (e, newVal) => {
-        setTab(newVal);
-    };
+     const handleChange = (e, newVal) => {
 
-    return (
-        <React.Fragment>
-            <Header />
-            <Grid container>
-                <Grid item md={4} className={classes.sidebar}>
-                    <Paper className={classes.paper} square elevation={5}>
-                        <Paper square>
-                            <Tabs
-                                onChange={handleChange}
-                                variant="fullWidth"
-                                value={tab}
-                                indicatorColor="primary"
-                                textColor="primary"
-                            >
-                                <Tab label="Chats" />
-                                <Tab label="Users" />
-                            </Tabs>
-                        </Paper>
-                        {tab === 0 
-                            && (
-                            <Conversations
-                                setUser={setUser}
-                                setScope={setScope}
-                            />
-                        )
-                        }
-                        {tab === 1 && (
-                            <Users setUser={setUser} setScope={setScope} />
-                        )}
-                    </Paper>
-                </Grid>
-                <Grid item md={8}>
-                    <ChatBox scope={scope} user={user} />
-                </Grid>
-            </Grid>
-        </React.Fragment>
-    );
+         setTab(newVal);
+                 // alert(newVal)
+
+     };
+
+     return (
+         <React.Fragment>
+             <Header />
+             <Grid container>
+                 <Grid item md={4} className={classes.sidebar}>
+                     <Paper className={classes.paper} square
+elevation={5}>
+                         <Paper square>
+                             <Tabs
+                                 onChange={handleChange}
+                                 variant="fullWidth"
+                                 value={tab}
+                                 indicatorColor="primary"
+                                 textColor="primary"
+                             >
+                                 {/*   <Tab label="Chats" /> */}
+                                 <Tab label="Users" />
+                                 <Tab label="Admin" />
+                             </Tabs>
+                         </Paper>
+                           {/* {tab === 0
+                             && (
+                             <Conversations
+                                 setUser={setUser}
+                                 setScope={setScope}
+                             />
+                         )
+                        } */}
+                         {tab === 0 && (
+                             <Users setUser={setUser} setScope={setScope}
+/>
+                         )}
+                         {tab === 1 && (
+                             <Users setUser={setUser} setScope={setScope}
+usetype={"bot"} />
+                         )}
+                     </Paper>
+                 </Grid>
+                 <Grid item md={8}>
+                     <ChatBox scope={scope} user={user} />
+                 </Grid>
+             </Grid>
+         </React.Fragment>
+     );
 };
 
 export default Chat;
+

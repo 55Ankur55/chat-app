@@ -188,8 +188,9 @@ def CallIntent(intent_output,entities):
 
 def GetDistance(entities):
   for i,row in database.iterrows():
-    if(entities["From"].lower()==row["From"].lower() and entities["To"].lower()==row["To"].lower() and entities["Time"].lower()==row["Time"].lower()):
+    if(entities["From"].lower()==row["From"].lower() and entities["To"].lower()==row["To"].lower()):
       results.append("The distance from {} to {} is {}" .format(entities["From"],entities["To"],row["Distance"]))
+      return results
 
 
 # In[19]:
